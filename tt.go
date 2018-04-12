@@ -152,7 +152,7 @@ func Expect(t *testing.T, expect string, actual interface{}, args ...int) {
 	if expect != actualStr {
 		err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
 		err += Yellow("\n Error:		Not equal; \n ")
-		err += Blue("expected:	%s,\n ") + Red("but got:	%s \n\n")
+		err += Blue("expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
 		t.Errorf(err, expect, actualStr)
 	}
 }
