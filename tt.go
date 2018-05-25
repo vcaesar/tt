@@ -128,21 +128,21 @@ func CallerInfo() []string {
 //
 //    tt.Equal(t, 1, 1)
 //
-func Equal(t *testing.T, expect, actual interface{}, args ...int) {
+func Equal(t *testing.T, expect, actual interface{}, args ...int) bool {
 	call := 3
 	if len(args) > 0 {
 		call = args[0]
 	}
 
 	expectStr := fmt.Sprint(expect)
-	Expect(t, expectStr, actual, call)
+	return Expect(t, expectStr, actual, call)
 }
 
 // Expect asserts that string and objects are equal.
 //
 //    tt.Expect(t, "1", 1)
 //
-func Expect(t *testing.T, expect string, actual interface{}, args ...int) {
+func Expect(t *testing.T, expect string, actual interface{}, args ...int) bool {
 	call := 2
 	if len(args) > 0 {
 		call = args[0]
@@ -154,5 +154,9 @@ func Expect(t *testing.T, expect string, actual interface{}, args ...int) {
 		err += Yellow("\n Error:		Not equal; \n ")
 		err += Blue("expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
 		t.Errorf(err, expect, actualStr)
+
+		return false
 	}
+
+	return true
 }
