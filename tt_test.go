@@ -42,3 +42,18 @@ func TestTT(t *testing.T) {
 	at.Nil(nil)
 	at.Bool(1 == 1)
 }
+
+func TestArgs(t *testing.T) {
+	Expect(t, "2", add.Add(1, 1), 2)
+	Equal(t, 2, add.Add(1, 1), 3)
+
+	Nil(t, nil, 3)
+	Bool(t, 1 == 1, 3)
+
+	at := New(t)
+	at.Expect("2", add.Add(1, 1), 3)
+	at.Equal(2, add.Add(1, 1), 4)
+
+	at.Nil(nil, 3)
+	at.Bool(1 == 1, 3)
+}
