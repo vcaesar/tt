@@ -83,12 +83,20 @@ func TestArgs(t *testing.T) {
 	Expect(t, "2", add.Add(1, 1), 3)
 	Equal(t, 2, add.Add(1, 1), 4)
 
+	Not(t, 3, add.Add(1, 1), 4)
+	NotExpect(t, "3", add.Add(1, 1), 3)
+	NotEqual(t, 3, add.Add(1, 1), 4)
+
 	Nil(t, nil, 3)
 	Bool(t, 1 == 1, 4)
 
 	at := New(t)
 	at.Expect("2", add.Add(1, 1), 4)
 	at.Equal(2, add.Add(1, 1), 5)
+
+	at.Not("3", add.Add(1, 1), 4)
+	at.NotExpect("3", add.Add(1, 1), 4)
+	at.NotEqual(3, add.Add(1, 1), 5)
 
 	at.Nil(nil, 4)
 	at.Bool(1 == 1, 4)
