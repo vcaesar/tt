@@ -39,6 +39,10 @@ func TestAdd(t *testing.T) {
 
 	tt.Equal(t, 1, add.Add(1, 1))
 	tt.Equal(t, 2, add.Add(1, 1))
+
+	at := tt.New(t)
+	at.Expect("2", add.Add(1, 1))
+	at.Equal(2, add.Add(1, 1))
 }
 ```
 ## Thanks
