@@ -143,7 +143,7 @@ func CallerInfo() []string {
 
 // Equal asserts that two objects are equal.
 func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
-	call := 4
+	call := 5
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -153,7 +153,7 @@ func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
 
 // Expect asserts that string and objects are equal.
 func (at *Assertions) Expect(expect string, actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -163,7 +163,7 @@ func (at *Assertions) Expect(expect string, actual interface{}, args ...int) boo
 
 // Nil asserts that nil and objects are equal.
 func (at *Assertions) Nil(actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -173,7 +173,7 @@ func (at *Assertions) Nil(actual interface{}, args ...int) bool {
 
 // Bool asserts that true and objects are equal.
 func (at *Assertions) Bool(actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -181,12 +181,20 @@ func (at *Assertions) Bool(actual interface{}, args ...int) bool {
 	return Expect(at.t, "true", actual, call)
 }
 
+// FmtErr return error string
+func FmtErr(call int) string {
+	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
+	err += Yellow("\n Error:		Not equal; \n ")
+	err += Blue("expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
+	return err
+}
+
 // Equal asserts that two objects are equal.
 //
 //    tt.Equal(t *testing.T, 1, 1)
 //
 func Equal(t TestingT, expect, actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -200,16 +208,14 @@ func Equal(t TestingT, expect, actual interface{}, args ...int) bool {
 //    tt.Expect(t *testing.T, "1", 1)
 //
 func Expect(t TestingT, expect string, actual interface{}, args ...int) bool {
-	call := 2
+	call := 3
 	if len(args) > 0 {
 		call = args[0]
 	}
 
 	actualStr := fmt.Sprint(actual)
 	if expect != actualStr {
-		err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
-		err += Yellow("\n Error:		Not equal; \n ")
-		err += Blue("expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
+		err := FmtErr(call)
 		t.Errorf(err, expect, actualStr)
 
 		return false
@@ -220,7 +226,7 @@ func Expect(t TestingT, expect string, actual interface{}, args ...int) bool {
 
 // Nil asserts that nil and objects are equal.
 func Nil(t TestingT, actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
@@ -230,7 +236,7 @@ func Nil(t TestingT, actual interface{}, args ...int) bool {
 
 // Bool asserts that true and objects are equal.
 func Bool(t TestingT, actual interface{}, args ...int) bool {
-	call := 3
+	call := 4
 	if len(args) > 0 {
 		call = args[0]
 	}
