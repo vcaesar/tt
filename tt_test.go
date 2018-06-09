@@ -9,8 +9,8 @@ import (
 
 func TestTT(t *testing.T) {
 	mockT := new(testing.T)
-
 	fmt.Println(Expect(mockT, "1", add.Add(1, 1)))
+
 	if Expect(mockT, "1", add.Add(1, 1)) {
 		t.Error("Equal should return false")
 	}
@@ -45,8 +45,8 @@ func TestTT(t *testing.T) {
 
 func TestNot(t *testing.T) {
 	mockT := new(testing.T)
-
 	fmt.Println(Expect(mockT, "1", add.Add(1, 1)))
+
 	if !Not(mockT, "1", add.Add(1, 1)) {
 		t.Error("Equal should return false")
 	}
@@ -83,8 +83,8 @@ func TestArgs(t *testing.T) {
 	Expect(t, "2", add.Add(1, 1), 3)
 	Equal(t, 2, add.Add(1, 1), 4)
 
-	Not(t, 3, add.Add(1, 1), 4)
 	NotExpect(t, "3", add.Add(1, 1), 3)
+	Not(t, 3, add.Add(1, 1), 4)
 	NotEqual(t, 3, add.Add(1, 1), 4)
 
 	Nil(t, nil, 3)
@@ -94,8 +94,8 @@ func TestArgs(t *testing.T) {
 	at.Expect("2", add.Add(1, 1), 4)
 	at.Equal(2, add.Add(1, 1), 5)
 
-	at.Not("3", add.Add(1, 1), 4)
 	at.NotExpect("3", add.Add(1, 1), 4)
+	at.Not("3", add.Add(1, 1), 5)
 	at.NotEqual(3, add.Add(1, 1), 5)
 
 	at.Nil(nil, 4)
