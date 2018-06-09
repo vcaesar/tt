@@ -151,6 +151,16 @@ func (at *Assertions) Expect(expect string, actual interface{}, args ...int) boo
 	return Expect(at.t, expect, actual, args...)
 }
 
+// Nil asserts that nil and objects are equal.
+func (at *Assertions) Nil(actual interface{}, args ...int) bool {
+	return Expect(at.t, "<nil>", actual, args...)
+}
+
+// Bool asserts that true and objects are equal.
+func (at *Assertions) Bool(actual interface{}, args ...int) bool {
+	return Expect(at.t, "true", actual, args...)
+}
+
 // Equal asserts that two objects are equal.
 //
 //    tt.Equal(t *testing.T, 1, 1)
@@ -186,4 +196,14 @@ func Expect(t TestingT, expect string, actual interface{}, args ...int) bool {
 	}
 
 	return true
+}
+
+// Nil asserts that nil and objects are equal.
+func Nil(t TestingT, actual interface{}, args ...int) bool {
+	return Expect(t, "<nil>", actual, args...)
+}
+
+// Bool asserts that true and objects are equal.
+func Bool(t TestingT, actual interface{}, args ...int) bool {
+	return Expect(t, "true", actual, args...)
 }
