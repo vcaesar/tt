@@ -20,10 +20,27 @@ import (
 	"fmt"
 	"runtime"
 	"strings"
-	"testing"
 	"unicode"
 	"unicode/utf8"
 )
+
+// TestingT is an interface wrapper around *testing.T
+type TestingT interface {
+	Errorf(format string, args ...interface{})
+}
+
+// Assertions provides assertion methods around the
+// TestingT interface.
+type Assertions struct {
+	t TestingT
+}
+
+// New makes a new Assertions object for the specified TestingT.
+func New(t TestingT) *Assertions {
+	return &Assertions{
+		t: t,
+	}
+}
 
 // Blue returns a blue string
 func Blue(message string) string {
@@ -125,10 +142,20 @@ func CallerInfo() []string {
 }
 
 // Equal asserts that two objects are equal.
+func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
+	return Equal(at.t, expect, actual, args...)
+}
+
+// Expect asserts that string and objects are equal.
+func (at *Assertions) Expect(expect string, actual interface{}, args ...int) bool {
+	return Expect(at.t, expect, actual, args...)
+}
+
+// Equal asserts that two objects are equal.
 //
-//    tt.Equal(t, 1, 1)
+//    tt.Equal(t *testing.T, 1, 1)
 //
-func Equal(t *testing.T, expect, actual interface{}, args ...int) bool {
+func Equal(t TestingT, expect, actual interface{}, args ...int) bool {
 	call := 3
 	if len(args) > 0 {
 		call = args[0]
@@ -140,9 +167,9 @@ func Equal(t *testing.T, expect, actual interface{}, args ...int) bool {
 
 // Expect asserts that string and objects are equal.
 //
-//    tt.Expect(t, "1", 1)
+//    tt.Expect(t *testing.T, "1", 1)
 //
-func Expect(t *testing.T, expect string, actual interface{}, args ...int) bool {
+func Expect(t TestingT, expect string, actual interface{}, args ...int) bool {
 	call := 2
 	if len(args) > 0 {
 		call = args[0]

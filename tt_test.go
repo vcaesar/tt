@@ -29,7 +29,10 @@ func TestAdd(t *testing.T) {
 
 	// Expect(t, "1", add.Add(1, 1))
 	Expect(t, "2", add.Add(1, 1))
-
 	// Equal(t, 1, add.Add(1, 1))
 	Equal(t, 2, add.Add(1, 1))
+
+	at := New(t)
+	at.Expect("2", add.Add(1, 1))
+	at.Equal(2, add.Add(1, 1))
 }
