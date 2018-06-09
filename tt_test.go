@@ -7,7 +7,7 @@ import (
 	"github.com/vcaesar/tt/example"
 )
 
-func TestAdd(t *testing.T) {
+func TestTT(t *testing.T) {
 	mockT := new(testing.T)
 
 	fmt.Println(Expect(mockT, "1", add.Add(1, 1)))
@@ -38,6 +38,7 @@ func TestAdd(t *testing.T) {
 	at := New(t)
 	at.Expect("2", add.Add(1, 1))
 	at.Equal(2, add.Add(1, 1))
+
 	at.Nil(nil)
 	at.Bool(1 == 1)
 }
