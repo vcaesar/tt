@@ -43,6 +43,42 @@ func TestTT(t *testing.T) {
 	at.Bool(1 == 1)
 }
 
+func TestNot(t *testing.T) {
+	mockT := new(testing.T)
+
+	fmt.Println(Expect(mockT, "1", add.Add(1, 1)))
+	if !Not(mockT, "1", add.Add(1, 1)) {
+		t.Error("Equal should return false")
+	}
+	if !NotExpect(mockT, "1", add.Add(1, 1)) {
+		t.Error("Equal should return false")
+	}
+	if !NotEqual(mockT, "1", add.Add(1, 1)) {
+		t.Error("Equal should return false")
+	}
+
+	if Not(mockT, "Hello World", "Hello World") {
+		t.Error("Equal should return true")
+	}
+	if NotExpect(mockT, "Hello World", "Hello World") {
+		t.Error("Equal should return true")
+	}
+	if NotEqual(mockT, "Hello World", "Hello World") {
+		t.Error("Equal should return true")
+	}
+
+	fmt.Println(add.Add(1, 1))
+
+	Not(t, "3", add.Add(1, 1))
+	NotExpect(t, "3", add.Add(1, 1))
+	NotEqual(t, 3, add.Add(1, 1))
+
+	at := New(t)
+	at.Not("3", add.Add(1, 1))
+	at.NotExpect("3", add.Add(1, 1))
+	at.NotEqual(3, add.Add(1, 1))
+}
+
 func TestArgs(t *testing.T) {
 	Expect(t, "2", add.Add(1, 1), 3)
 	Equal(t, 2, add.Add(1, 1), 4)

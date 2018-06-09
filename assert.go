@@ -53,7 +53,17 @@ func (at *Assertions) Bool(actual interface{}, args ...int) bool {
 	return Expect(at.t, "true", actual, call)
 }
 
-// NotEqual asserts that two objects are equal.
+// Not asserts that two objects are not equal.
+func (at *Assertions) Not(expect, actual interface{}, args ...int) bool {
+	call := 5
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Not(at.t, expect, actual, call)
+}
+
+// NotEqual asserts that two objects are not equal.
 func (at *Assertions) NotEqual(expect, actual interface{}, args ...int) bool {
 	call := 5
 	if len(args) > 0 {
@@ -63,7 +73,7 @@ func (at *Assertions) NotEqual(expect, actual interface{}, args ...int) bool {
 	return NotEqual(at.t, expect, actual, call)
 }
 
-// NotExpect asserts that string and objects are equal.
+// NotExpect asserts that string and objects are not equal.
 func (at *Assertions) NotExpect(expect string, actual interface{}, args ...int) bool {
 	call := 4
 	if len(args) > 0 {

@@ -191,7 +191,29 @@ func Bool(t TestingT, actual interface{}, args ...int) bool {
 	return Expect(t, "true", actual, call)
 }
 
-// NotEqual asserts that two objects are equal.
+// NotErr return not equal error string
+func NotErr(call int) string {
+	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
+	err += Yellow("\n Error:		Equal; \n ")
+	err += Blue("not expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
+	return err
+}
+
+// Not asserts that two objects are not equal.
+//
+//    tt.NotEqual(t *testing.T, 1, 1)
+//
+func Not(t TestingT, expect, actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	expectStr := fmt.Sprint(expect)
+	return NotExpect(t, expectStr, actual, call)
+}
+
+// NotEqual asserts that two objects are not equal.
 //
 //    tt.NotEqual(t *testing.T, 1, 1)
 //
@@ -217,7 +239,7 @@ func NotExpect(t TestingT, expect string, actual interface{}, args ...int) bool 
 
 	actualStr := fmt.Sprint(actual)
 	if expect == actualStr {
-		err := FmtErr(call)
+		err := NotErr(call)
 		t.Errorf(err, expect, actualStr)
 
 		return false
