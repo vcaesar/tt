@@ -29,19 +29,6 @@ type TestingT interface {
 	Errorf(format string, args ...interface{})
 }
 
-// Assertions provides assertion methods around the
-// TestingT interface.
-type Assertions struct {
-	t TestingT
-}
-
-// New makes a new Assertions object for the specified TestingT.
-func New(t TestingT) *Assertions {
-	return &Assertions{
-		t: t,
-	}
-}
-
 // Blue returns a blue string
 func Blue(message string) string {
 	return fmt.Sprintf("\x1b[34m%s\x1b[0m", message)
@@ -141,46 +128,6 @@ func CallerInfo() []string {
 	return callers
 }
 
-// Equal asserts that two objects are equal.
-func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
-	call := 5
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, expect, actual, call)
-}
-
-// Expect asserts that string and objects are equal.
-func (at *Assertions) Expect(expect string, actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Expect(at.t, expect, actual, call)
-}
-
-// Nil asserts that nil and objects are equal.
-func (at *Assertions) Nil(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Expect(at.t, "<nil>", actual, call)
-}
-
-// Bool asserts that true and objects are equal.
-func (at *Assertions) Bool(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Expect(at.t, "true", actual, call)
-}
-
 // FmtErr return error string
 func FmtErr(call int) string {
 	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
@@ -242,4 +189,39 @@ func Bool(t TestingT, actual interface{}, args ...int) bool {
 	}
 
 	return Expect(t, "true", actual, call)
+}
+
+// NotEqual asserts that two objects are equal.
+//
+//    tt.NotEqual(t *testing.T, 1, 1)
+//
+func NotEqual(t TestingT, expect, actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	expectStr := fmt.Sprint(expect)
+	return NotExpect(t, expectStr, actual, call)
+}
+
+// NotExpect asserts that string and objects are not equal.
+//
+//    tt.NotExpect(t *testing.T, "1", 1)
+//
+func NotExpect(t TestingT, expect string, actual interface{}, args ...int) bool {
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	actualStr := fmt.Sprint(actual)
+	if expect == actualStr {
+		err := FmtErr(call)
+		t.Errorf(err, expect, actualStr)
+
+		return false
+	}
+
+	return true
 }
