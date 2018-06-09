@@ -143,22 +143,42 @@ func CallerInfo() []string {
 
 // Equal asserts that two objects are equal.
 func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
-	return Equal(at.t, expect, actual, args...)
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Equal(at.t, expect, actual, call)
 }
 
 // Expect asserts that string and objects are equal.
 func (at *Assertions) Expect(expect string, actual interface{}, args ...int) bool {
-	return Expect(at.t, expect, actual, args...)
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(at.t, expect, actual, call)
 }
 
 // Nil asserts that nil and objects are equal.
 func (at *Assertions) Nil(actual interface{}, args ...int) bool {
-	return Expect(at.t, "<nil>", actual, args...)
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(at.t, "<nil>", actual, call)
 }
 
 // Bool asserts that true and objects are equal.
 func (at *Assertions) Bool(actual interface{}, args ...int) bool {
-	return Expect(at.t, "true", actual, args...)
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(at.t, "true", actual, call)
 }
 
 // Equal asserts that two objects are equal.
@@ -200,10 +220,20 @@ func Expect(t TestingT, expect string, actual interface{}, args ...int) bool {
 
 // Nil asserts that nil and objects are equal.
 func Nil(t TestingT, actual interface{}, args ...int) bool {
-	return Expect(t, "<nil>", actual, args...)
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(t, "<nil>", actual, call)
 }
 
 // Bool asserts that true and objects are equal.
 func Bool(t TestingT, actual interface{}, args ...int) bool {
-	return Expect(t, "true", actual, args...)
+	call := 3
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(t, "true", actual, call)
 }
