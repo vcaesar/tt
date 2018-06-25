@@ -19,3 +19,10 @@ func TestAdd(t *testing.T) {
 	at.Expect("2", Add(1, 1))
 	at.Equal(2, Add(1, 1))
 }
+
+func Benchmark1(b *testing.B) {
+	at := tt.New(b)
+	for i := 0; i < b.N; i++ {
+		at.Equal(2, Add(1, 1))
+	}
+}

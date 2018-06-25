@@ -101,3 +101,12 @@ func TestArgs(t *testing.T) {
 	at.Nil(nil, 4)
 	at.Bool(1 == 1, 4)
 }
+
+func Benchmark1(b *testing.B) {
+	at := New(b)
+	at.Bool(true)
+	for i := 0; i < b.N; i++ {
+		// do something
+		fmt.Println("do something")
+	}
+}
