@@ -34,6 +34,8 @@ func TestTT(t *testing.T) {
 
 	Nil(t, nil)
 	Bool(t, 1 == 1)
+	True(t, 1 == 1)
+	False(t, 1 != 1)
 
 	at := New(t)
 	at.Expect("2", add.Add(1, 1))
@@ -41,6 +43,8 @@ func TestTT(t *testing.T) {
 
 	at.Nil(nil)
 	at.Bool(1 == 1)
+	at.True(1 == 1)
+	at.False(1 != 1)
 }
 
 func TestNot(t *testing.T) {
@@ -89,6 +93,8 @@ func TestArgs(t *testing.T) {
 
 	Nil(t, nil, 3)
 	Bool(t, 1 == 1, 4)
+	True(t, 1 == 1, 4)
+	False(t, 1 != 1, 4)
 
 	at := New(t)
 	at.Expect("2", add.Add(1, 1), 4)
@@ -100,6 +106,8 @@ func TestArgs(t *testing.T) {
 
 	at.Nil(nil, 4)
 	at.Bool(1 == 1, 4)
+	at.True(1 == 1, 4)
+	at.False(1 != 1, 4)
 }
 
 func Benchmark1(b *testing.B) {

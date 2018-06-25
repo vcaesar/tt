@@ -191,6 +191,26 @@ func Bool(t TestingT, actual interface{}, args ...int) bool {
 	return Expect(t, "true", actual, call)
 }
 
+// True asserts that true and objects are equal.
+func True(t TestingT, actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(t, "true", actual, call)
+}
+
+// False asserts that flase and objects are equal.
+func False(t TestingT, actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(t, "false", actual, call)
+}
+
 // NotErr return not equal error string
 func NotErr(call int) string {
 	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
