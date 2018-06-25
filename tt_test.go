@@ -107,6 +107,7 @@ func Benchmark1(b *testing.B) {
 	at.Bool(true)
 	for i := 0; i < b.N; i++ {
 		// do something
-		fmt.Println("do something")
+		// fmt.Println("do something")
+		at.Equal(2, add.Add(1, 1))
 	}
 }
