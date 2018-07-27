@@ -52,6 +52,16 @@ func (at *Assertions) Nil(actual interface{}, args ...int) bool {
 	return Expect(at.t, "<nil>", actual, call)
 }
 
+// Empty asserts that empty and objects are equal.
+func (at *Assertions) Empty(actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(at.t, "", actual, call)
+}
+
 // Bool asserts that true and objects are equal.
 func (at *Assertions) Bool(actual interface{}, args ...int) bool {
 	call := 4

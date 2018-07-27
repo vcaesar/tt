@@ -189,6 +189,16 @@ func Nil(t TestingT, actual interface{}, args ...int) bool {
 	return Expect(t, "<nil>", actual, call)
 }
 
+// Empty asserts that empty and objects are equal.
+func Empty(t TestingT, actual interface{}, args ...int) bool {
+	call := 4
+	if len(args) > 0 {
+		call = args[0]
+	}
+
+	return Expect(t, "", actual, call)
+}
+
 // Bool asserts that true and objects are equal.
 func Bool(t TestingT, actual interface{}, args ...int) bool {
 	call := 4
