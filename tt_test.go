@@ -94,7 +94,7 @@ func TestArgs(t *testing.T) {
 	NotEqual(t, 3, add.Add(1, 1), 4)
 
 	Nil(t, nil, 3)
-	Empty(t, nil, 3)
+	Empty(t, "", 3)
 	Bool(t, 1 == 1, 4)
 	True(t, 1 == 1, 4)
 	False(t, 1 != 1, 4)
