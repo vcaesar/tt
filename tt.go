@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"runtime"
 	"strings"
+	"testing"
 	"unicode"
 	"unicode/utf8"
 )
@@ -126,6 +127,13 @@ func CallerInfo() []string {
 	}
 
 	return callers
+}
+
+// BM func Benchmark1(b *testing.B, fn func())
+func BM(b *testing.B, fn func()) {
+	for i := 0; i < b.N; i++ {
+		fn()
+	}
 }
 
 // FmtErr return error string

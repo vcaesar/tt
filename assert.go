@@ -1,5 +1,7 @@
 package tt
 
+import "testing"
+
 // Assertions provides assertion methods around the
 // TestingT interface.
 type Assertions struct {
@@ -10,6 +12,13 @@ type Assertions struct {
 func New(t TestingT) *Assertions {
 	return &Assertions{
 		t: t,
+	}
+}
+
+// BM func Benchmark1(b *testing.B, fn func())
+func (at *Assertions) BM(b *testing.B, fn func()) {
+	for i := 0; i < b.N; i++ {
+		fn()
 	}
 }
 
