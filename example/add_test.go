@@ -26,3 +26,13 @@ func Benchmark1(b *testing.B) {
 		at.Equal(2, Add(1, 1))
 	}
 }
+
+func Benchmark2(b *testing.B) {
+	at := tt.New(b)
+	fn := func() {
+		at.Equal(2, Add(1, 1))
+	}
+
+	tt.BM(b, fn)
+	// at.BM(b, fn)
+}
