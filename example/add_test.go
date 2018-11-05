@@ -22,17 +22,17 @@ func TestAdd(t *testing.T) {
 
 func Benchmark1(b *testing.B) {
 	at := tt.New(b)
-	for i := 0; i < b.N; i++ {
-		at.Equal(2, Add(1, 1))
-	}
-}
-
-func Benchmark2(b *testing.B) {
-	at := tt.New(b)
 	fn := func() {
 		at.Equal(2, Add(1, 1))
 	}
 
 	tt.BM(b, fn)
 	// at.BM(b, fn)
+}
+
+func Benchmark2(b *testing.B) {
+	at := tt.New(b)
+	for i := 0; i < b.N; i++ {
+		at.Equal(2, Add(1, 1))
+	}
 }
