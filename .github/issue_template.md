@@ -5,11 +5,11 @@
 
 **You MUST delete the content above including this line before posting, otherwise your issue will be invalid.**
 
-- Ego version (or commit ref):
+- Tt version (or commit ref):
 - Go version:
-- Gcc version:
+<!-- - Gcc version: -->
 - Operating system and bit:
-- Can you reproduce the bug at [Examples](https://github.com/go-ego/ego/tree/master/examples):
+- Can you reproduce the bug at [Examples](https://github.com/vcaesar/tt/tree/master/examples):
   - [ ] Yes (provide example code)
   - [ ] No
   - [ ] Not relevant
