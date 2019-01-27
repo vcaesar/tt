@@ -18,12 +18,35 @@ package tt
 
 import (
 	"fmt"
+	"log"
 	"runtime"
 	"strings"
 	"testing"
+	"time"
 	"unicode"
+
+	"net/http"
+	_ "net/http/pprof"
 	"unicode/utf8"
 )
+
+// Pprof use:
+// pprof -http=:8090 http://127.0.0.1:6060/debug/pprof/heap
+//
+// go tool pprof http://localhost:6060/debug/pprof/heap
+//
+// debug/pprof/profile
+// set time:
+// debug/pprof/profile\?seconds\=10
+func Pprof(tm ...int) {
+	go func() {
+		log.Println(http.ListenAndServe("127.0.0.1:6060", nil))
+	}()
+
+	if len(tm) > 0 {
+		time.Sleep(time.Duration(tm[0]) * time.Second)
+	}
+}
 
 // TestingT is an interface wrapper around *testing.T
 type TestingT interface {
