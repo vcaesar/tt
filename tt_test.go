@@ -47,6 +47,8 @@ func TestTT(t *testing.T) {
 	at.Bool(1 == 1)
 	at.True(1 == 1)
 	at.False(1 != 1)
+
+	True(t, Pprof(1))
 }
 
 func TestNot(t *testing.T) {

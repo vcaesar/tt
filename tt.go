@@ -38,7 +38,7 @@ import (
 // debug/pprof/profile
 // set time:
 // debug/pprof/profile\?seconds\=10
-func Pprof(tm ...int) {
+func Pprof(tm ...int) bool {
 	go func() {
 		log.Println(http.ListenAndServe("127.0.0.1:6060", nil))
 	}()
@@ -46,6 +46,8 @@ func Pprof(tm ...int) {
 	if len(tm) > 0 {
 		time.Sleep(time.Duration(tm[0]) * time.Second)
 	}
+
+	return true
 }
 
 // TestingT is an interface wrapper around *testing.T
@@ -92,15 +94,14 @@ func isTest(name, prefix string) bool {
 // CallerInfo returns an array of strings containing the file and line number
 // of each stack frame leading from the current test to the assert call that
 // failed.
-func CallerInfo() []string {
+func CallerInfo() (callers []string) {
+	var (
+		pc         uintptr
+		file, name string
+		line       int
+		ok         bool
+	)
 
-	pc := uintptr(0)
-	file := ""
-	line := 0
-	ok := false
-	name := ""
-
-	callers := []string{}
 	for i := 0; ; i++ {
 		pc, file, line, ok = runtime.Caller(i)
 		if !ok {
@@ -149,7 +150,7 @@ func CallerInfo() []string {
 		}
 	}
 
-	return callers
+	return
 }
 
 // BM func Benchmark1(b *testing.B, fn func())
