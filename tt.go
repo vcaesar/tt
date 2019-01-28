@@ -31,13 +31,19 @@ import (
 )
 
 // Pprof use:
+// Mem:
 // pprof -http=:8090 http://127.0.0.1:6060/debug/pprof/heap
 //
 // go tool pprof http://localhost:6060/debug/pprof/heap
 //
-// debug/pprof/profile
+// CPU:
+//		debug/pprof/profile
 // set time:
-// debug/pprof/profile\?seconds\=10
+//		debug/pprof/profile\?seconds\=10
+// pprof -http=:8090 http://127.0.0.1:6060/debug/pprof/profile\?seconds\=10
+//
+// debug/pprof/block
+// debug/pprof/mutex
 func Pprof(tm ...int) bool {
 	go func() {
 		log.Println(http.ListenAndServe("127.0.0.1:6060", nil))
