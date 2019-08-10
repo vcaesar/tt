@@ -15,7 +15,8 @@ func New(t TestingT) *Assertions {
 	}
 }
 
-// BM func Benchmark1(b *testing.B, fn func())
+// BM is the encapsulation of the benchmark function
+//	func Benchmark1(b *testing.B, fn func())
 func (at *Assertions) BM(b *testing.B, fn func()) {
 	for i := 0; i < b.N; i++ {
 		fn()
