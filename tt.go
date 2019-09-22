@@ -30,6 +30,11 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	// Version get the tt version
+	Version = "v0.10.0.54, Sierra Nevada!"
+)
+
 // Pprof use:
 // Mem:
 // pprof -http=:8090 http://127.0.0.1:6060/debug/pprof/heap
