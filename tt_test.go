@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/vcaesar/tt/example"
+	add "github.com/vcaesar/tt/example"
 )
 
 func TestTT(t *testing.T) {
@@ -114,6 +114,11 @@ func TestArgs(t *testing.T) {
 	at.Bool(1 == 1, 4)
 	at.True(1 == 1, 4)
 	at.False(1 != 1, 4)
+}
+
+func TestDbg(t *testing.T) {
+	Nil(t, Log("log test"))
+	// Nil(t, Err("err test"))
 }
 
 func Benchmark1(b *testing.B) {

@@ -13,28 +13,3 @@
 // under the License.
 
 package tt
-
-import "log"
-
-func fmtDbg(s string, v ...interface{}) (arr []interface{}) {
-	info := Red("Trace: " + CallerInfo()[3] + ", ")
-	info += Blue(s)
-
-	arr = append(arr, info)
-	arr = append(arr, v...)
-
-	return
-}
-
-// Log dbg log
-func Log(s string, v ...interface{}) error {
-	arr := fmtDbg(s, v...)
-	log.Println(arr...)
-	return nil
-}
-
-// Err dbg error log
-func Err(s string, v ...interface{}) {
-	err := fmtDbg(s, v...)
-	log.Fatalln(err...)
-}
