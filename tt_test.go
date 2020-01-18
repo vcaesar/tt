@@ -116,6 +116,12 @@ func TestArgs(t *testing.T) {
 	at.False(1 != 1, 4)
 }
 
+func TestType(t *testing.T) {
+	Type = true
+	Equal(t, 1, 1)
+	Nil(t, nil)
+}
+
 func TestDbg(t *testing.T) {
 	Nil(t, Log("log test"))
 	// Nil(t, Err("err test"))

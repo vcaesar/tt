@@ -19,6 +19,7 @@ package tt
 import (
 	"fmt"
 	"log"
+	"reflect"
 	"testing"
 	"time"
 
@@ -29,6 +30,11 @@ import (
 const (
 	// Version get the tt version
 	Version = "v0.10.0.54, Sierra Nevada!"
+)
+
+var (
+	// Type type must
+	Type bool
 )
 
 // Pprof use:
@@ -87,6 +93,17 @@ func Equal(t TestingT, expect, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
+	if Type && reflect.TypeOf(expect) != reflect.TypeOf(actual) {
+		if len(args) < 1 {
+			call = call - 1
+		}
+
+		err := FmtErr(call)
+		t.Errorf(err, expect, actual)
+
+		return false
+	}
+
 	expectStr := fmt.Sprint(expect)
 	return Expect(t, expectStr, actual, call)
 }
@@ -119,7 +136,7 @@ func Nil(t TestingT, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(t, "<nil>", actual, call)
+	return Equal(t, nil, actual, call)
 }
 
 // Empty asserts that empty and objects are equal.
@@ -129,7 +146,7 @@ func Empty(t TestingT, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(t, "", actual, call)
+	return Equal(t, "", actual, call)
 }
 
 // Bool asserts that true and objects are equal.
@@ -139,7 +156,7 @@ func Bool(t TestingT, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(t, "true", actual, call)
+	return Equal(t, true, actual, call)
 }
 
 // True asserts that true and objects are equal.
@@ -149,7 +166,7 @@ func True(t TestingT, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(t, "true", actual, call)
+	return Equal(t, true, actual, call)
 }
 
 // False asserts that flase and objects are equal.
@@ -159,7 +176,7 @@ func False(t TestingT, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(t, "false", actual, call)
+	return Equal(t, false, actual, call)
 }
 
 // NotErr return not equal error string
