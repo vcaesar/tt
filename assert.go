@@ -64,7 +64,7 @@ func (at *Assertions) Nil(actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(at.t, "<nil>", actual, call)
+	return Equal(at.t, nil, actual, call)
 }
 
 // Empty asserts that empty and objects are equal.
@@ -74,7 +74,7 @@ func (at *Assertions) Empty(actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(at.t, "", actual, call)
+	return Equal(at.t, "", actual, call)
 }
 
 // Bool asserts that true and objects are equal.
@@ -84,7 +84,7 @@ func (at *Assertions) Bool(actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(at.t, "true", actual, call)
+	return Equal(at.t, true, actual, call)
 }
 
 // True asserts that true and objects are equal.
@@ -94,7 +94,7 @@ func (at *Assertions) True(actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(at.t, "true", actual, call)
+	return Equal(at.t, true, actual, call)
 }
 
 // False asserts that flase and objects are equal.
@@ -104,7 +104,7 @@ func (at *Assertions) False(actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
-	return Expect(at.t, "false", actual, call)
+	return Equal(at.t, false, actual, call)
 }
 
 // Not asserts that two objects are not equal.
