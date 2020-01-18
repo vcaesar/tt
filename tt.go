@@ -19,6 +19,7 @@ package tt
 import (
 	"fmt"
 	"log"
+	"reflect"
 	"testing"
 	"time"
 
@@ -29,6 +30,11 @@ import (
 const (
 	// Version get the tt version
 	Version = "v0.10.0.54, Sierra Nevada!"
+)
+
+var (
+	// Type type must
+	Type bool
 )
 
 // Pprof use:
@@ -85,6 +91,17 @@ func Equal(t TestingT, expect, actual interface{}, args ...int) bool {
 	call := 4
 	if len(args) > 0 {
 		call = args[0]
+	}
+
+	if Type && reflect.TypeOf(expect) != reflect.TypeOf(actual) {
+		if len(args) < 1 {
+			call = call - 1
+		}
+
+		err := FmtErr(call)
+		t.Errorf(err, expect, actual)
+
+		return false
 	}
 
 	expectStr := fmt.Sprint(expect)
