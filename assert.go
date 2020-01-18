@@ -38,101 +38,70 @@ func (at *Assertions) BM(b *testing.B, fn func()) {
 }
 
 // Equal asserts that two objects are equal.
-func (at *Assertions) Equal(expect, actual interface{}, args ...int) bool {
-	call := 5
-	if len(args) > 0 {
-		call = args[0]
+func (at *Assertions) Equal(expect, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	if len(args) < 1 {
+		call = call + 1
 	}
-
-	return Equal(at.t, expect, actual, call)
+	return Equal(at.t, expect, actual, info, call)
 }
 
 // Expect asserts that string and objects are equal.
-func (at *Assertions) Expect(expect string, actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Expect(at.t, expect, actual, call)
+func (at *Assertions) Expect(expect string, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Expect(at.t, expect, actual, info, call)
 }
 
 // Nil asserts that nil and objects are equal.
-func (at *Assertions) Nil(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, nil, actual, call)
+func (at *Assertions) Nil(actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Equal(at.t, nil, actual, info, call)
 }
 
 // Empty asserts that empty and objects are equal.
-func (at *Assertions) Empty(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, "", actual, call)
+func (at *Assertions) Empty(actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Equal(at.t, "", actual, info, call)
 }
 
 // Bool asserts that true and objects are equal.
-func (at *Assertions) Bool(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, true, actual, call)
+func (at *Assertions) Bool(actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Equal(at.t, true, actual, info, call)
 }
 
 // True asserts that true and objects are equal.
-func (at *Assertions) True(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, true, actual, call)
+func (at *Assertions) True(actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Equal(at.t, true, actual, info, call)
 }
 
 // False asserts that flase and objects are equal.
-func (at *Assertions) False(actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return Equal(at.t, false, actual, call)
+func (at *Assertions) False(actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return Equal(at.t, false, actual, info, call)
 }
 
 // Not asserts that two objects are not equal.
-func (at *Assertions) Not(expect, actual interface{}, args ...int) bool {
-	call := 5
-	if len(args) > 0 {
-		call = args[0]
+func (at *Assertions) Not(expect, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	if len(args) < 1 {
+		call = call + 1
 	}
-
-	return Not(at.t, expect, actual, call)
+	return Not(at.t, expect, actual, info, call)
 }
 
 // NotEqual asserts that two objects are not equal.
-func (at *Assertions) NotEqual(expect, actual interface{}, args ...int) bool {
-	call := 5
-	if len(args) > 0 {
-		call = args[0]
+func (at *Assertions) NotEqual(expect, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	if len(args) < 1 {
+		call = call + 1
 	}
-
-	return NotEqual(at.t, expect, actual, call)
+	return NotEqual(at.t, expect, actual, info, call)
 }
 
 // NotExpect asserts that string and objects are not equal.
-func (at *Assertions) NotExpect(expect string, actual interface{}, args ...int) bool {
-	call := 4
-	if len(args) > 0 {
-		call = args[0]
-	}
-
-	return NotExpect(at.t, expect, actual, call)
+func (at *Assertions) NotExpect(expect string, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	return NotExpect(at.t, expect, actual, info, call)
 }

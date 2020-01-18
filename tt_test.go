@@ -88,32 +88,32 @@ func TestNot(t *testing.T) {
 }
 
 func TestArgs(t *testing.T) {
-	Expect(t, "2", add.Add(1, 1), 3)
-	Equal(t, 2, add.Add(1, 1), 4)
+	Expect(t, "2", add.Add(1, 1), "must be expect", 3)
+	Equal(t, 2, add.Add(1, 1), "", 4)
 
-	NotExpect(t, "3", add.Add(1, 1), 3)
-	Not(t, 3, add.Add(1, 1), 4)
-	NotEqual(t, 3, add.Add(1, 1), 4)
+	NotExpect(t, "3", add.Add(1, 1), "", 3)
+	Not(t, 3, add.Add(1, 1), "", 4)
+	NotEqual(t, 3, add.Add(1, 1), "", 4)
 
-	Nil(t, nil, 3)
-	Empty(t, "", 3)
-	Bool(t, 1 == 1, 4)
-	True(t, 1 == 1, 4)
-	False(t, 1 != 1, 4)
+	Nil(t, nil, "", 3)
+	Empty(t, "", "", 3)
+	Bool(t, 1 == 1, "", 4)
+	True(t, 1 == 1, "", 4)
+	False(t, 1 != 1, "", 4)
 
 	at := New(t)
-	at.Expect("2", add.Add(1, 1), 4)
-	at.Equal(2, add.Add(1, 1), 5)
+	at.Expect("2", add.Add(1, 1), "", 4)
+	at.Equal(2, add.Add(1, 1), "", 5)
 
-	at.NotExpect("3", add.Add(1, 1), 4)
-	at.Not("3", add.Add(1, 1), 5)
-	at.NotEqual(3, add.Add(1, 1), 5)
+	at.NotExpect("3", add.Add(1, 1), "", 4)
+	at.Not("3", add.Add(1, 1), "", 5)
+	at.NotEqual(3, add.Add(1, 1), "", 5)
 
-	at.Nil(nil, 4)
-	at.Empty("", 4)
-	at.Bool(1 == 1, 4)
-	at.True(1 == 1, 4)
-	at.False(1 != 1, 4)
+	at.Nil(nil, "", 4)
+	at.Empty("", "", 4)
+	at.Bool(1 == 1, "", 4)
+	at.True(1 == 1, "", 4)
+	at.False(1 != 1, "", 4)
 }
 
 func TestType(t *testing.T) {
