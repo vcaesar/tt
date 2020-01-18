@@ -211,6 +211,17 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...int) bool {
 		call = args[0]
 	}
 
+	if Type && reflect.TypeOf(expect) != reflect.TypeOf(actual) {
+		if len(args) < 1 {
+			call = call - 1
+		}
+
+		err := FmtErr(call)
+		t.Errorf(err, expect, actual)
+
+		return false
+	}
+
 	expectStr := fmt.Sprint(expect)
 	return NotExpect(t, expectStr, actual, call)
 }
