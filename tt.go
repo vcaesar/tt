@@ -75,6 +75,11 @@ func BM(b *testing.B, fn func()) {
 	}
 }
 
+// TypeF make Type false
+func TypeF() {
+	Type = false
+}
+
 func argsFn(args ...interface{}) (string, int) {
 	call := 5
 	if len(args) > 1 {
@@ -104,6 +109,18 @@ func Fmt(equal, expect string, call int, info ...string) string {
 // FmtErr return error string
 func FmtErr(call int, info ...string) string {
 	return Fmt("Not Equal", "expected", call, info...)
+}
+
+// DEqual asserts that two objects are deep equal.
+//
+//    tt.DEqual(t *testing.T, 1, 1)
+//
+func DEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
+	info, call := argsFn(args...)
+	Type = true
+	defer TypeF()
+
+	return Equal(t, expect, actual, info, call)
 }
 
 // Equal asserts that two objects are equal.
