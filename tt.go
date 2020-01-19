@@ -29,7 +29,7 @@ import (
 
 const (
 	// Version get the tt version
-	Version = "v0.20.0.74, Sierra Nevada!"
+	Version = "v0.20.0.77, Sierra Nevada!"
 )
 
 var (
@@ -94,7 +94,7 @@ func Fmt(equal, expect string, call int, info ...string) string {
 	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
 	err += Yellow("\n Error:		" + equal + "; \n ")
 	if len(info) > 0 && info[0] != "" {
-		err += "Messages:	" + info[0] + "\n " // Red(info[0] + "\n ")
+		err += "Messages:	" + info[0] + "\n "
 	}
 
 	err += Blue(expect+":	'%s',\n ") + Red("but got:	'%s' \n\n")
@@ -120,7 +120,6 @@ func Equal(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 
 		err := FmtErr(call, info)
 		t.Errorf(err, expect, actual)
-
 		return false
 	}
 
@@ -141,8 +140,8 @@ func Expect(t TestingT, expect string, actual interface{}, args ...interface{}) 
 	actualStr := fmt.Sprint(actual)
 	if expect != actualStr {
 		err := FmtErr(call, info)
-		t.Errorf(err, expect, actualStr)
 
+		t.Errorf(err, expect, actualStr)
 		return false
 	}
 
@@ -213,7 +212,6 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool 
 
 		err := FmtErr(call, info)
 		t.Errorf(err, expect, actual)
-
 		return false
 	}
 
@@ -236,7 +234,6 @@ func NotExpect(t TestingT, expect string, actual interface{}, args ...interface{
 		err := NotErr(call, info)
 
 		t.Errorf(err, expect, actualStr)
-
 		return false
 	}
 
