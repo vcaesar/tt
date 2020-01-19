@@ -29,7 +29,7 @@ import (
 
 const (
 	// Version get the tt version
-	Version = "v0.10.0.54, Sierra Nevada!"
+	Version = "v0.20.0.74, Sierra Nevada!"
 )
 
 var (
@@ -75,15 +75,35 @@ func BM(b *testing.B, fn func()) {
 	}
 }
 
+func argsFn(args ...interface{}) (string, int) {
+	call := 5
+	if len(args) > 1 {
+		call = args[1].(int)
+	}
+
+	info := ""
+	if len(args) > 0 {
+		info = args[0].(string)
+	}
+
+	return info, call
+}
+
+// Fmt return error string
+func Fmt(equal, expect string, call int, info ...string) string {
+	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
+	err += Yellow("\n Error:		" + equal + "; \n ")
+	if len(info) > 0 && info[0] != "" {
+		err += "Messages:	" + info[0] + "\n " // Red(info[0] + "\n ")
+	}
+
+	err += Blue(expect+":	'%s',\n ") + Red("but got:	'%s' \n\n")
+	return err
+}
+
 // FmtErr return error string
 func FmtErr(call int, info ...string) string {
-	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
-	err += Yellow("\n Error:		Not equal; \n ")
-	if len(info) > 0 {
-		err += info[0] + "\n "
-	}
-	err += Blue("expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
-	return err
+	return Fmt("Not Equal", "expected", call, info...)
 }
 
 // Equal asserts that two objects are equal.
@@ -157,20 +177,6 @@ func True(t TestingT, actual interface{}, args ...interface{}) bool {
 	return Equal(t, true, actual, info, call)
 }
 
-func argsFn(args ...interface{}) (string, int) {
-	call := 4
-	if len(args) > 1 {
-		call = args[1].(int)
-	}
-
-	info := ""
-	if len(args) > 0 {
-		info = args[0].(string)
-	}
-
-	return info, call
-}
-
 // False asserts that flase and objects are equal.
 func False(t TestingT, actual interface{}, args ...interface{}) bool {
 	info, call := argsFn(args...)
@@ -180,13 +186,7 @@ func False(t TestingT, actual interface{}, args ...interface{}) bool {
 
 // NotErr return not equal error string
 func NotErr(call int, info ...string) string {
-	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
-	err += Yellow("\n Error:		Equal; \n ")
-	if len(info) > 0 {
-		err += info[0] + "\n "
-	}
-	err += Blue("not expected:	'%s',\n ") + Red("but got:	'%s' \n\n")
-	return err
+	return Fmt("Equal", "not expected", call, info...)
 }
 
 // Not asserts that two objects are not equal.
