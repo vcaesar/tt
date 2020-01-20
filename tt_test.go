@@ -120,6 +120,17 @@ func TestType(t *testing.T) {
 	Type = true
 	Equal(t, 1, 1)
 	Nil(t, nil)
+
+	mockT := new(testing.T)
+	if Equal(mockT, 1, "1") {
+		t.Error("Equal should return false")
+	}
+
+	if !NotEqual(mockT, 1, "1") {
+		t.Error("Equal should return true")
+	}
+
+	DEqual(t, 1, 1)
 }
 
 func TestDbg(t *testing.T) {
@@ -138,11 +149,18 @@ func Benchmark1(b *testing.B) {
 }
 
 func Benchmark2(b *testing.B) {
+	fn := func() {
+		Equal(b, 2, add.Add(1, 1))
+	}
+
+	BM(b, fn)
+}
+
+func Benchmark3(b *testing.B) {
 	at := New(b)
 	fn := func() {
 		at.Equal(2, add.Add(1, 1))
 	}
 
-	BM(b, fn)
 	at.BM(b, fn)
 }
