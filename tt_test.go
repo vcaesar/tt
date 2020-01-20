@@ -120,6 +120,17 @@ func TestType(t *testing.T) {
 	Type = true
 	Equal(t, 1, 1)
 	Nil(t, nil)
+
+	mockT := new(testing.T)
+	if Equal(mockT, 1, "1") {
+		t.Error("Equal should return false")
+	}
+
+	if !NotEqual(mockT, 1, "1") {
+		t.Error("Equal should return true")
+	}
+
+	DEqual(t, 1, 1)
 }
 
 func TestDbg(t *testing.T) {
