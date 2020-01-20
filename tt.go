@@ -262,6 +262,10 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool 
 		return false
 	}
 
+	if Type && !typeOf(expect, actual) {
+		return true
+	}
+
 	expectStr := fmt.Sprint(expect)
 	return NotExpect(t, expectStr, actual, info, call)
 }
