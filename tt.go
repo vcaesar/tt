@@ -101,6 +101,28 @@ func argsFn(args ...interface{}) (string, int) {
 	return info, call
 }
 
+func callSub(args ...interface{}) (string, int) {
+	info, call := argsFn(args...)
+	if len(args) < 1 {
+		call = call - 1
+	}
+	return info, call
+}
+
+func callAdd(t bool, args ...interface{}) (string, int) {
+	info, call := argsFn(args...)
+	if len(args) < 1 && !t {
+		call = call + 1
+	}
+
+	return info, call
+}
+
+func typeCall(expect, actual interface{}, args ...interface{}) (string, int) {
+	b := Type && !typeOf(expect, actual)
+	return callAdd(b, args...)
+}
+
 // Fmt return error string
 func Fmt(equal, expect string, call int, info ...string) string {
 	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
