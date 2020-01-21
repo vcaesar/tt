@@ -122,7 +122,7 @@ func TestType(t *testing.T) {
 	Nil(t, nil)
 
 	mockT := new(testing.T)
-	if Equal(mockT, 1, "1", "must be equal") {
+	if Equal(mockT, 1, "1", "must be equal", "tt/tt_test.go:125") {
 		t.Error("Equal should return false")
 	}
 
@@ -134,7 +134,7 @@ func TestType(t *testing.T) {
 		t.Error("Equal should return true")
 	}
 
-	DEqual(t, 1, 1)
+	DEqual(t, 1, 1, "", "tt/tt_test.go:137")
 }
 
 func TestDbg(t *testing.T) {

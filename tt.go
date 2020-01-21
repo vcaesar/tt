@@ -75,7 +75,8 @@ func BM(b *testing.B, fn func()) {
 	}
 }
 
-func typeOf(expect, actual interface{}) bool {
+// TypeOf equal two interface{} type
+func TypeOf(expect, actual interface{}) bool {
 	if reflect.TypeOf(expect) == reflect.TypeOf(actual) {
 		return true
 	}
@@ -87,52 +88,63 @@ func TypeF() {
 	Type = false
 }
 
-func argsFn(args ...interface{}) (string, int) {
-	call := 5
-	if len(args) > 1 {
-		call = args[1].(int)
-	}
-
+func argsFn(args ...interface{}) (string, int, string) {
 	info := ""
 	if len(args) > 0 {
 		info = args[0].(string)
 	}
 
-	return info, call
+	call := 5
+	callInfo := ""
+	if len(args) > 1 {
+		if TypeOf(args[1], callInfo) {
+			callInfo = args[1].(string)
+			return info, call, callInfo
+		}
+
+		call = args[1].(int)
+	}
+
+	return info, call, callInfo
 }
 
-func callSub(args ...interface{}) (string, int) {
-	info, call := argsFn(args...)
+func callSub(args ...interface{}) (string, int, string) {
+	info, call, cinfo := argsFn(args...)
 	if len(args) < 1 {
 		call = call - 1
 	}
-	return info, call
+	return info, call, cinfo
 }
 
-func callAdd(t bool, args ...interface{}) (string, int) {
-	info, call := argsFn(args...)
+func callAdd(t bool, args ...interface{}) (string, int, string) {
+	info, call, cinfo := argsFn(args...)
 	if len(args) < 1 && !t {
 		call = call + 1
 	}
 
-	return info, call
+	return info, call, cinfo
 }
 
-func typeCall(expect, actual interface{}, args ...interface{}) (string, int) {
-	b := Type && !typeOf(expect, actual)
+func typeCall(expect, actual interface{}, args ...interface{}) (string, int, string) {
+	b := Type && !TypeOf(expect, actual)
 	return callAdd(b, args...)
 }
 
 // Fmt return error string
-func Fmt(equal, expect string, call int, info ...string) string {
-	err := RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
+func Fmt(equal, expect string, call int, info ...string) (err string) {
+	if len(info) > 1 && info[1] != "" {
+		err = RedBold("\n Error Trace:		" + info[1] + ",")
+	} else {
+		err = RedBold("\n Error Trace:		" + CallerInfo()[call] + ",")
+	}
+
 	err += Yellow("\n Error:		" + equal + "; \n ")
 	if len(info) > 0 && info[0] != "" {
 		err += "Messages:	" + info[0] + "\n "
 	}
 
 	err += Blue(expect+":	'%s',\n ") + Red("but got:	'%s' \n\n")
-	return err
+	return
 }
 
 // FmtErr return error string
@@ -145,15 +157,15 @@ func FmtErr(call int, info ...string) string {
 //    tt.DEqual(t *testing.T, 1, 1)
 //
 func DEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
-	info, call := argsFn(args...)
+	info, call, cinfo := argsFn(args...)
 	Type = true
 	defer TypeF()
 
-	if typeOf(expect, actual) {
+	if TypeOf(expect, actual) {
 		call = call + 1
 	}
 
-	return Equal(t, expect, actual, info, call)
+	return Equal(t, expect, actual, info, call, cinfo)
 }
 
 // Equal asserts that two objects are equal.
@@ -161,20 +173,23 @@ func DEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 //    tt.Equal(t *testing.T, 1, 1)
 //
 func Equal(t TestingT, expect, actual interface{}, args ...interface{}) bool {
-	info, call := argsFn(args...)
+	info, call, cinfo := argsFn(args...)
+	if len(args) > 2 {
+		cinfo = args[2].(string)
+	}
 
-	if Type && !typeOf(expect, actual) {
+	if Type && !TypeOf(expect, actual) {
 		if len(args) < 2 {
 			call = call - 1
 		}
 
-		err := FmtErr(call, info)
+		err := FmtErr(call, info, cinfo)
 		t.Errorf(err, expect, actual)
 		return false
 	}
 
 	expectStr := fmt.Sprint(expect)
-	return Expect(t, expectStr, actual, info, call)
+	return Expect(t, expectStr, actual, info, call, cinfo)
 }
 
 // Expect asserts that string and objects are equal.
@@ -182,11 +197,14 @@ func Equal(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 //    tt.Expect(t *testing.T, "1", 1)
 //
 func Expect(t TestingT, expect string, actual interface{}, args ...interface{}) bool {
-	info, call := callSub(args...)
+	info, call, cinfo := callSub(args...)
+	if len(args) > 2 {
+		cinfo = args[2].(string)
+	}
 
 	actualStr := fmt.Sprint(actual)
 	if expect != actualStr {
-		err := FmtErr(call, info)
+		err := FmtErr(call, info, cinfo)
 
 		t.Errorf(err, expect, actualStr)
 		return false
@@ -197,37 +215,37 @@ func Expect(t TestingT, expect string, actual interface{}, args ...interface{}) 
 
 // Nil asserts that nil and objects are equal.
 func Nil(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(nil, actual, args...)
+	info, call, cinfo := typeCall(nil, actual, args...)
 
-	return Equal(t, nil, actual, info, call)
+	return Equal(t, nil, actual, info, call, cinfo)
 }
 
 // Empty asserts that empty and objects are equal.
 func Empty(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall("", actual, args...)
+	info, call, cinfo := typeCall("", actual, args...)
 
-	return Equal(t, "", actual, info, call)
+	return Equal(t, "", actual, info, call, cinfo)
 }
 
 // Bool asserts that true and objects are equal.
 func Bool(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
+	info, call, cinfo := typeCall(true, actual, args...)
 
-	return Equal(t, true, actual, info, call)
+	return Equal(t, true, actual, info, call, cinfo)
 }
 
 // True asserts that true and objects are equal.
 func True(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
+	info, call, cinfo := typeCall(true, actual, args...)
 
-	return Equal(t, true, actual, info, call)
+	return Equal(t, true, actual, info, call, cinfo)
 }
 
 // False asserts that flase and objects are equal.
 func False(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(false, actual, args...)
+	info, call, cinfo := typeCall(false, actual, args...)
 
-	return Equal(t, false, actual, info, call)
+	return Equal(t, false, actual, info, call, cinfo)
 }
 
 // NotErr return not equal error string
@@ -240,9 +258,9 @@ func NotErr(call int, info ...string) string {
 //    tt.NotEqual(t *testing.T, 1, 1)
 //
 func Not(t TestingT, expect, actual interface{}, args ...interface{}) bool {
-	info, call := callAdd(Type, args...)
+	info, call, cinfo := callAdd(Type, args...)
 
-	return NotEqual(t, expect, actual, info, call)
+	return NotEqual(t, expect, actual, info, call, cinfo)
 }
 
 // NotEqual asserts that two objects are not equal.
@@ -250,24 +268,27 @@ func Not(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 //    tt.NotEqual(t *testing.T, 1, 1)
 //
 func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
-	info, call := argsFn(args...)
+	info, call, cinfo := argsFn(args...)
+	if len(args) > 2 {
+		cinfo = args[2].(string)
+	}
 
-	if Type && typeOf(expect, actual) {
+	if Type && TypeOf(expect, actual) {
 		if len(args) < 2 {
 			call = call - 1
 		}
 
-		err := FmtErr(call, info)
+		err := NotErr(call, info, cinfo)
 		t.Errorf(err, expect, actual)
 		return false
 	}
 
-	if Type && !typeOf(expect, actual) {
+	if Type && !TypeOf(expect, actual) {
 		return true
 	}
 
 	expectStr := fmt.Sprint(expect)
-	return NotExpect(t, expectStr, actual, info, call)
+	return NotExpect(t, expectStr, actual, info, call, cinfo)
 }
 
 // NotExpect asserts that string and objects are not equal.
@@ -275,11 +296,14 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool 
 //    tt.NotExpect(t *testing.T, "1", 1)
 //
 func NotExpect(t TestingT, expect string, actual interface{}, args ...interface{}) bool {
-	info, call := callSub(args...)
+	info, call, cinfo := callSub(args...)
+	if len(args) > 2 {
+		cinfo = args[2].(string)
+	}
 
 	actualStr := fmt.Sprint(actual)
 	if expect == actualStr {
-		err := NotErr(call, info)
+		err := NotErr(call, info, cinfo)
 
 		t.Errorf(err, expect, actualStr)
 		return false
