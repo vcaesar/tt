@@ -116,16 +116,16 @@ func callSub(args ...interface{}) (string, int, string) {
 	return info, call, cinfo
 }
 
-func callAdd(t bool, args ...interface{}) (string, int) {
-	info, call, _ := argsFn(args...)
+func callAdd(t bool, args ...interface{}) (string, int, string) {
+	info, call, cinfo := argsFn(args...)
 	if len(args) < 1 && !t {
 		call = call + 1
 	}
 
-	return info, call
+	return info, call, cinfo
 }
 
-func typeCall(expect, actual interface{}, args ...interface{}) (string, int) {
+func typeCall(expect, actual interface{}, args ...interface{}) (string, int, string) {
 	b := Type && !TypeOf(expect, actual)
 	return callAdd(b, args...)
 }
@@ -215,37 +215,37 @@ func Expect(t TestingT, expect string, actual interface{}, args ...interface{}) 
 
 // Nil asserts that nil and objects are equal.
 func Nil(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(nil, actual, args...)
+	info, call, cinfo := typeCall(nil, actual, args...)
 
-	return Equal(t, nil, actual, info, call)
+	return Equal(t, nil, actual, info, call, cinfo)
 }
 
 // Empty asserts that empty and objects are equal.
 func Empty(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall("", actual, args...)
+	info, call, cinfo := typeCall("", actual, args...)
 
-	return Equal(t, "", actual, info, call)
+	return Equal(t, "", actual, info, call, cinfo)
 }
 
 // Bool asserts that true and objects are equal.
 func Bool(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
+	info, call, cinfo := typeCall(true, actual, args...)
 
-	return Equal(t, true, actual, info, call)
+	return Equal(t, true, actual, info, call, cinfo)
 }
 
 // True asserts that true and objects are equal.
 func True(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
+	info, call, cinfo := typeCall(true, actual, args...)
 
-	return Equal(t, true, actual, info, call)
+	return Equal(t, true, actual, info, call, cinfo)
 }
 
 // False asserts that flase and objects are equal.
 func False(t TestingT, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(false, actual, args...)
+	info, call, cinfo := typeCall(false, actual, args...)
 
-	return Equal(t, false, actual, info, call)
+	return Equal(t, false, actual, info, call, cinfo)
 }
 
 // NotErr return not equal error string
@@ -258,9 +258,9 @@ func NotErr(call int, info ...string) string {
 //    tt.NotEqual(t *testing.T, 1, 1)
 //
 func Not(t TestingT, expect, actual interface{}, args ...interface{}) bool {
-	info, call := callAdd(Type, args...)
+	info, call, cinfo := callAdd(Type, args...)
 
-	return NotEqual(t, expect, actual, info, call)
+	return NotEqual(t, expect, actual, info, call, cinfo)
 }
 
 // NotEqual asserts that two objects are not equal.

@@ -39,9 +39,9 @@ func (at *Assertions) BM(b *testing.B, fn func()) {
 
 // Equal asserts that two objects are equal.
 func (at *Assertions) Equal(expect, actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(expect, actual, args...)
+	info, call, cinfo := typeCall(expect, actual, args...)
 
-	return Equal(at.t, expect, actual, info, call)
+	return Equal(at.t, expect, actual, info, call, cinfo)
 }
 
 // Expect asserts that string and objects are equal.
@@ -52,44 +52,44 @@ func (at *Assertions) Expect(expect string, actual interface{}, args ...interfac
 
 // Nil asserts that nil and objects are equal.
 func (at *Assertions) Nil(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(nil, actual, args...)
-	return Equal(at.t, nil, actual, info, call)
+	info, call, cinfo := typeCall(nil, actual, args...)
+	return Equal(at.t, nil, actual, info, call, cinfo)
 }
 
 // Empty asserts that empty and objects are equal.
 func (at *Assertions) Empty(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall("", actual, args...)
-	return Equal(at.t, "", actual, info, call)
+	info, call, cinfo := typeCall("", actual, args...)
+	return Equal(at.t, "", actual, info, call, cinfo)
 }
 
 // Bool asserts that true and objects are equal.
 func (at *Assertions) Bool(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
-	return Equal(at.t, true, actual, info, call)
+	info, call, cinfo := typeCall(true, actual, args...)
+	return Equal(at.t, true, actual, info, call, cinfo)
 }
 
 // True asserts that true and objects are equal.
 func (at *Assertions) True(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
-	return Equal(at.t, true, actual, info, call)
+	info, call, cinfo := typeCall(true, actual, args...)
+	return Equal(at.t, true, actual, info, call, cinfo)
 }
 
 // False asserts that flase and objects are equal.
 func (at *Assertions) False(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(false, actual, args...)
-	return Equal(at.t, false, actual, info, call)
+	info, call, cinfo := typeCall(false, actual, args...)
+	return Equal(at.t, false, actual, info, call, cinfo)
 }
 
 // Not asserts that two objects are not equal.
 func (at *Assertions) Not(expect, actual interface{}, args ...interface{}) bool {
-	info, call := callAdd(Type, args...)
-	return NotEqual(at.t, expect, actual, info, call)
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(at.t, expect, actual, info, call, cinfo)
 }
 
 // NotEqual asserts that two objects are not equal.
 func (at *Assertions) NotEqual(expect, actual interface{}, args ...interface{}) bool {
-	info, call := callAdd(Type, args...)
-	return NotEqual(at.t, expect, actual, info, call)
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(at.t, expect, actual, info, call, cinfo)
 }
 
 // NotExpect asserts that string and objects are not equal.
