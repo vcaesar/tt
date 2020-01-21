@@ -269,13 +269,16 @@ func Not(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 //
 func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := argsFn(args...)
+	if len(args) > 2 {
+		cinfo = args[2].(string)
+	}
 
 	if Type && TypeOf(expect, actual) {
 		if len(args) < 2 {
 			call = call - 1
 		}
 
-		err := FmtErr(call, info, cinfo)
+		err := NotErr(call, info, cinfo)
 		t.Errorf(err, expect, actual)
 		return false
 	}
