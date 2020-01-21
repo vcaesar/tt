@@ -46,8 +46,8 @@ func (at *Assertions) Equal(expect, actual interface{}, args ...interface{}) boo
 
 // Expect asserts that string and objects are equal.
 func (at *Assertions) Expect(expect string, actual interface{}, args ...interface{}) bool {
-	info, call := argsFn(args...)
-	return Expect(at.t, expect, actual, info, call)
+	info, call, cinfo := argsFn(args...)
+	return Expect(at.t, expect, actual, info, call, cinfo)
 }
 
 // Nil asserts that nil and objects are equal.
@@ -94,6 +94,6 @@ func (at *Assertions) NotEqual(expect, actual interface{}, args ...interface{}) 
 
 // NotExpect asserts that string and objects are not equal.
 func (at *Assertions) NotExpect(expect string, actual interface{}, args ...interface{}) bool {
-	info, call := argsFn(args...)
-	return NotExpect(at.t, expect, actual, info, call)
+	info, call, cinfo := argsFn(args...)
+	return NotExpect(at.t, expect, actual, info, call, cinfo)
 }
