@@ -76,7 +76,7 @@ func (at *Assertions) True(actual interface{}, args ...interface{}) bool {
 
 // False asserts that flase and objects are equal.
 func (at *Assertions) False(actual interface{}, args ...interface{}) bool {
-	info, call := typeCall(true, actual, args...)
+	info, call := typeCall(false, actual, args...)
 	return Equal(at.t, false, actual, info, call)
 }
 
