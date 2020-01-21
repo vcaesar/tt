@@ -122,7 +122,11 @@ func TestType(t *testing.T) {
 	Nil(t, nil)
 
 	mockT := new(testing.T)
-	if Equal(mockT, 1, "1") {
+	if Equal(mockT, 1, "1", "must be equal") {
+		t.Error("Equal should return false")
+	}
+
+	if NotEqual(mockT, 1, 1, "must be not equal") {
 		t.Error("Equal should return false")
 	}
 
