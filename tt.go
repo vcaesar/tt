@@ -75,7 +75,8 @@ func BM(b *testing.B, fn func()) {
 	}
 }
 
-func typeOf(expect, actual interface{}) bool {
+// TypeOf equal two interface{} type
+func TypeOf(expect, actual interface{}) bool {
 	if reflect.TypeOf(expect) == reflect.TypeOf(actual) {
 		return true
 	}
@@ -119,7 +120,7 @@ func callAdd(t bool, args ...interface{}) (string, int) {
 }
 
 func typeCall(expect, actual interface{}, args ...interface{}) (string, int) {
-	b := Type && !typeOf(expect, actual)
+	b := Type && !TypeOf(expect, actual)
 	return callAdd(b, args...)
 }
 
@@ -149,7 +150,7 @@ func DEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 	Type = true
 	defer TypeF()
 
-	if typeOf(expect, actual) {
+	if TypeOf(expect, actual) {
 		call = call + 1
 	}
 
@@ -163,7 +164,7 @@ func DEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 func Equal(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 	info, call := argsFn(args...)
 
-	if Type && !typeOf(expect, actual) {
+	if Type && !TypeOf(expect, actual) {
 		if len(args) < 2 {
 			call = call - 1
 		}
@@ -252,7 +253,7 @@ func Not(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 	info, call := argsFn(args...)
 
-	if Type && typeOf(expect, actual) {
+	if Type && TypeOf(expect, actual) {
 		if len(args) < 2 {
 			call = call - 1
 		}
@@ -262,7 +263,7 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool 
 		return false
 	}
 
-	if Type && !typeOf(expect, actual) {
+	if Type && !TypeOf(expect, actual) {
 		return true
 	}
 
