@@ -164,7 +164,7 @@ func Equal(t TestingT, expect, actual interface{}, args ...interface{}) bool {
 	info, call := argsFn(args...)
 
 	if Type && !typeOf(expect, actual) {
-		if len(args) < 1 {
+		if len(args) < 2 {
 			call = call - 1
 		}
 
@@ -253,7 +253,7 @@ func NotEqual(t TestingT, expect, actual interface{}, args ...interface{}) bool 
 	info, call := argsFn(args...)
 
 	if Type && typeOf(expect, actual) {
-		if len(args) < 1 {
+		if len(args) < 2 {
 			call = call - 1
 		}
 
