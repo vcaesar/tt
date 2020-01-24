@@ -216,15 +216,40 @@ func Expect(t TestingT, expect string, actual interface{}, args ...interface{}) 
 // Nil asserts that nil and objects are equal.
 func Nil(t TestingT, actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := typeCall(nil, actual, args...)
-
 	return Equal(t, nil, actual, info, call, cinfo)
+}
+
+// NotNil asserts that not equal nil.
+//
+//    tt.NotNil(t *testing.T, 1)
+//
+func NotNil(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(t, nil, actual, info, call, cinfo)
 }
 
 // Empty asserts that empty and objects are equal.
 func Empty(t TestingT, actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := typeCall("", actual, args...)
-
 	return Equal(t, "", actual, info, call, cinfo)
+}
+
+// NotEmpty asserts that empty and objects are not equal.
+func NotEmpty(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(t, "", actual, info, call, cinfo)
+}
+
+// Zero asserts that zero and objects are equal.
+func Zero(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := typeCall(0, actual, args...)
+	return Equal(t, 0, actual, info, call, cinfo)
+}
+
+// NotZero asserts that zero and objects are not equal.
+func NotZero(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(t, 0, actual, info, call, cinfo)
 }
 
 // Bool asserts that true and objects are equal.
