@@ -56,10 +56,37 @@ func (at *Assertions) Nil(actual interface{}, args ...interface{}) bool {
 	return Equal(at.t, nil, actual, info, call, cinfo)
 }
 
+// NotNil asserts that not equal nil.
+//
+//    at.NotNil(t *testing.T, 1)
+//
+func (at *Assertions) NotNil(actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(at.t, nil, actual, info, call, cinfo)
+}
+
 // Empty asserts that empty and objects are equal.
 func (at *Assertions) Empty(actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := typeCall("", actual, args...)
 	return Equal(at.t, "", actual, info, call, cinfo)
+}
+
+// NotEmpty asserts that empty and objects are not equal.
+func (at Assertions) NotEmpty(actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(at.t, "", actual, info, call, cinfo)
+}
+
+// Zero asserts that zero and objects are equal.
+func (at *Assertions) Zero(actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := typeCall(0, actual, args...)
+	return Equal(at.t, 0, actual, info, call, cinfo)
+}
+
+// NotZero asserts that zero and objects are not equal.
+func (at *Assertions) NotZero(actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return NotEqual(at.t, 0, actual, info, call, cinfo)
 }
 
 // Bool asserts that true and objects are equal.
