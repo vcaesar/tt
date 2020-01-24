@@ -34,6 +34,7 @@ func TestTT(t *testing.T) {
 
 	Nil(t, nil)
 	Empty(t, "")
+	Zero(t, 0)
 	Bool(t, 1 == 1)
 	True(t, 1 == 1)
 	False(t, 1 != 1)
@@ -44,6 +45,7 @@ func TestTT(t *testing.T) {
 
 	at.Nil(nil)
 	at.Empty("")
+	at.Zero(0)
 	at.Bool(1 == 1)
 	at.True(1 == 1)
 	at.False(1 != 1)
@@ -80,11 +82,19 @@ func TestNot(t *testing.T) {
 	Not(t, "3", add.Add(1, 1))
 	NotExpect(t, "3", add.Add(1, 1))
 	NotEqual(t, 3, add.Add(1, 1))
+	//
+	NotNil(t, "nil", "", "tt_test.go:86")
+	NotEmpty(t, 1)
+	NotZero(t, "1")
 
 	at := New(t)
 	at.Not("3", add.Add(1, 1))
 	at.NotExpect("3", add.Add(1, 1))
 	at.NotEqual(3, add.Add(1, 1))
+	//
+	at.NotNil("nil", "", "tt_test.go:95")
+	at.NotEmpty(1)
+	at.NotZero("1")
 }
 
 func TestArgs(t *testing.T) {
