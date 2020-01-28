@@ -14,7 +14,10 @@
 
 package tt
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 // Assertions provides assertion methods around the
 // TestingT interface.
@@ -35,6 +38,14 @@ func (at *Assertions) BM(b *testing.B, fn func()) {
 	for i := 0; i < b.N; i++ {
 		fn()
 	}
+}
+
+// IsType asserts that two objects type are equal
+func (at *Assertions) IsType(expect string, actual interface{}, args ...interface{}) bool {
+	s := reflect.TypeOf(actual).String()
+
+	info, call, cinfo := typeCall(expect, s, args...)
+	return Equal(at.t, expect, s, info, call, cinfo)
 }
 
 // Equal asserts that two objects are equal.

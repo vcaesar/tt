@@ -110,6 +110,7 @@ func TestArgs(t *testing.T) {
 	Bool(t, 1 == 1, "", 4)
 	True(t, 1 == 1, "", 4)
 	False(t, 1 != 1, "", 4)
+	IsType(t, "int", 11, "", 4)
 
 	at := New(t)
 	at.Expect("2", add.Add(1, 1), "", 4)
@@ -124,6 +125,7 @@ func TestArgs(t *testing.T) {
 	at.Bool(1 == 1, "", 4)
 	at.True(1 == 1, "", 4)
 	at.False(1 != 1, "", 4)
+	at.IsType("int", 11, "", 4)
 }
 
 func TestType(t *testing.T) {
