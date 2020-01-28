@@ -83,6 +83,14 @@ func TypeOf(expect, actual interface{}) bool {
 	return false
 }
 
+// IsType asserts that two objects type are equal
+func IsType(t TestingT, expect string, actual interface{}, args ...interface{}) bool {
+	s := reflect.TypeOf(actual).String()
+
+	info, call, cinfo := typeCall(expect, s, args...)
+	return Equal(t, expect, s, info, call, cinfo)
+}
+
 // TypeF make Type false
 func TypeF() {
 	Type = false

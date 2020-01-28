@@ -127,6 +127,8 @@ func TestArgs(t *testing.T) {
 }
 
 func TestType(t *testing.T) {
+	IsType(t, "int", 11)
+
 	Type = true
 	Equal(t, 1, 1)
 	Nil(t, nil)
