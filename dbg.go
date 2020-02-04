@@ -14,11 +14,19 @@
 
 package tt
 
-import "log"
+import (
+	"log"
+	"strings"
+)
 
 func fmtDbg(s string, v ...interface{}) (arr []interface{}) {
-	info := Red("Trace: " + CallerInfo()[3] + ", ")
-	info += Blue(s)
+	info := ""
+	if strings.Contains(s, "t: ") {
+		info = RedBold("Trace:" + strings.TrimLeft(s, "t:") + ", ")
+	} else {
+		info = RedBold("Trace: " + CallerInfo()[3] + ", ")
+		info += Blue(s)
+	}
 
 	arr = append(arr, info)
 	arr = append(arr, v...)
