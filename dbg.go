@@ -46,3 +46,18 @@ func Err(s string, v ...interface{}) {
 	err := fmtDbg(s, v...)
 	log.Fatalln(err...)
 }
+
+// Drop set drop tag
+func Drop(api, use string, info ...string) bool {
+	call := ""
+	if len(info) > 0 && info[0] != "" {
+		call = RedBold("\n Error Trace: " + info[0] + ", ")
+	} else {
+		call = RedBold("\n Error Trace: " + CallerInfo()[2] + ", ")
+	}
+
+	s := call + Yellow("Warning: "+api+" is droped! Use "+use+".")
+	log.Println(s)
+
+	return true
+}
