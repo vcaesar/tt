@@ -47,16 +47,21 @@ func Err(s string, v ...interface{}) {
 	log.Fatalln(err...)
 }
 
-// Drop set drop tag
-func Drop(api, use string, info ...string) bool {
+func apiCall(info ...string) string {
 	call := ""
 	if len(info) > 0 && info[0] != "" {
 		call = RedBold("\n Error Trace: " + info[0] + ", ")
 	} else {
-		call = RedBold("\n Error Trace: " + CallerInfo()[2] + ", ")
+		call = RedBold("\n Error Trace: " + CallerInfo()[3] + ", ")
 	}
 
-	s := call + Yellow("Warning: "+api+" is droped! Use "+use+".")
+	return call
+}
+
+// Drop set drop tag
+func Drop(api, use string, info ...string) bool {
+	call := apiCall(info...)
+	s := call + Yellow("Warning: "+Blue(api)+" is droped! Use "+Red(use)+".")
 	log.Println(s)
 
 	return true
