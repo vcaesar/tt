@@ -66,3 +66,12 @@ func Drop(api, use string, info ...string) bool {
 
 	return true
 }
+
+// UnUsed not used tag
+func UnUsed(v string, info ...string) bool {
+	call := apiCall(info...)
+	s := call + Yellow("Warning: "+Blue(v)+" is not used!")
+	log.Println(s)
+
+	return true
+}
