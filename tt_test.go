@@ -155,8 +155,10 @@ func TestDbg(t *testing.T) {
 	Nil(t, Log("log test"))
 	Nil(t, Log("t: tt/tt_test.go:156", "log test"))
 	// Nil(t, Err("err test"))
+
 	Bool(t, Drop("drop()", "new()"))
 	Bool(t, Drop("drop()", "new()", "tt/tt_test.go:159"))
+	Bool(t, UnUsed("v", "tt/tt_test.go:161"))
 }
 
 func Benchmark1(b *testing.B) {
