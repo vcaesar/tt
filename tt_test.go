@@ -1,6 +1,7 @@
 package tt
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 
@@ -33,6 +34,8 @@ func TestTT(t *testing.T) {
 	Equal(t, 2, add.Add(1, 1))
 
 	Nil(t, nil)
+	Error(t, errors.New("error new"))
+	IsType(t, "nil", nil)
 	Empty(t, "")
 	Zero(t, 0)
 	Bool(t, 1 == 1)
@@ -121,6 +124,8 @@ func TestArgs(t *testing.T) {
 	at.NotEqual(3, add.Add(1, 1), "", 5)
 
 	at.Nil(nil, "", 4)
+	at.NotNil(1, "", "tt_test.go:127")
+	at.Error(errors.New("error new"), "", "tt_test.go:128")
 	at.Empty("", "", 4)
 	at.Bool(1 == 1, "", 4)
 	at.True(1 == 1, "", 4)
