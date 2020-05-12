@@ -76,6 +76,15 @@ func (at *Assertions) NotNil(actual interface{}, args ...interface{}) bool {
 	return NotEqual(at.t, nil, actual, info, call, cinfo)
 }
 
+// Error asserts that not equal error.
+//
+//    at.Error(t *testing.T, err)
+//
+func (at *Assertions) Error(actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return IsType(at.t, "*errors.errorString", actual, info, call, cinfo)
+}
+
 // Empty asserts that empty and objects are equal.
 func (at *Assertions) Empty(actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := typeCall("", actual, args...)

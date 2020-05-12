@@ -85,6 +85,13 @@ func TypeOf(expect, actual interface{}) bool {
 
 // IsType asserts that two objects type are equal
 func IsType(t TestingT, expect string, actual interface{}, args ...interface{}) bool {
+	if actual == nil && expect == "nil" {
+		return true
+	}
+	if actual == nil {
+		return false
+	}
+
 	s := reflect.TypeOf(actual).String()
 
 	info, call, cinfo := typeCall(expect, s, args...)
@@ -234,6 +241,12 @@ func Nil(t TestingT, actual interface{}, args ...interface{}) bool {
 func NotNil(t TestingT, actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := callAdd(Type, args...)
 	return NotEqual(t, nil, actual, info, call, cinfo)
+}
+
+// Error asserts that equal error.
+func Error(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return IsType(t, "*errors.errorString", actual, info, call, cinfo)
 }
 
 // Empty asserts that empty and objects are equal.
