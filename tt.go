@@ -243,6 +243,12 @@ func NotNil(t TestingT, actual interface{}, args ...interface{}) bool {
 	return NotEqual(t, nil, actual, info, call, cinfo)
 }
 
+// Error asserts that equal error.
+func Error(t TestingT, actual interface{}, args ...interface{}) bool {
+	info, call, cinfo := callAdd(Type, args...)
+	return IsType(t, "*errors.errorString", actual, info, call, cinfo)
+}
+
 // Empty asserts that empty and objects are equal.
 func Empty(t TestingT, actual interface{}, args ...interface{}) bool {
 	info, call, cinfo := typeCall("", actual, args...)
