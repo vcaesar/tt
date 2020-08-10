@@ -77,10 +77,7 @@ func BM(b *testing.B, fn func()) {
 
 // TypeOf equal two interface{} type
 func TypeOf(expect, actual interface{}) bool {
-	if reflect.TypeOf(expect) == reflect.TypeOf(actual) {
-		return true
-	}
-	return false
+	return reflect.TypeOf(expect) == reflect.TypeOf(actual)
 }
 
 // IsType asserts that two objects type are equal
