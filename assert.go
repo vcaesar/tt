@@ -15,7 +15,6 @@
 package tt
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -42,10 +41,8 @@ func (at *Assertions) BM(b *testing.B, fn func()) {
 
 // IsType asserts that two objects type are equal
 func (at *Assertions) IsType(expect string, actual interface{}, args ...interface{}) bool {
-	s := reflect.TypeOf(actual).String()
-
-	info, call, cinfo := typeCall(expect, s, args...)
-	return Equal(at.t, expect, s, info, call, cinfo)
+	info, call, cinfo := typeCall(expect, actual, args...)
+	return IsType(at.t, expect, actual, info, call+1, cinfo)
 }
 
 // Equal asserts that two objects are equal.
