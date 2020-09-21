@@ -131,6 +131,7 @@ func TestArgs(t *testing.T) {
 	at.True(1 == 1, "", 4)
 	at.False(1 != 1, "", 4)
 	at.IsType("int", 11, "", 4)
+	at.IsType("nil", nil)
 }
 
 func TestType(t *testing.T) {
