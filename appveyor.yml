@@ -12,7 +12,7 @@ environment:
   matrix:
     - GOARCH: amd64
     # - GOARCH: 386
-  GOVERSION: 1.16
+  GOVERSION: 1.16.3
   # GOPATH: c:\gopath
 
 install:
