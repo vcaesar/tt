@@ -34,17 +34,18 @@ func fmtDbg(s string, v ...interface{}) (arr []interface{}) {
 	return
 }
 
-// Log dbg log
+// Log dbg println log
 func Log(s string, v ...interface{}) error {
 	arr := fmtDbg(s, v...)
 	log.Println(arr...)
 	return nil
 }
 
-// Err dbg error log
-func Err(s string, v ...interface{}) {
+// Err dbg fatal error log
+func Err(s string, v ...interface{}) error {
 	err := fmtDbg(s, v...)
 	log.Fatalln(err...)
+	return nil
 }
 
 func apiCall(info ...string) string {
@@ -58,7 +59,7 @@ func apiCall(info ...string) string {
 	return call
 }
 
-// Drop set drop tag
+// Drop set drop tag and println log
 func Drop(api, use string, info ...string) bool {
 	call := apiCall(info...)
 	s := call + Yellow("Warning: "+Blue(api)+" is droped! Use "+Red(use)+".")
@@ -67,7 +68,7 @@ func Drop(api, use string, info ...string) bool {
 	return true
 }
 
-// UnUsed not used tag
+// UnUsed not used tag and println log
 func UnUsed(v string, info ...string) bool {
 	call := apiCall(info...)
 	s := call + Yellow("Warning: "+Blue(v)+" is not used!")
