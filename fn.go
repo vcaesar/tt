@@ -58,8 +58,8 @@ func isTest(name, prefix string) bool {
 	return !unicode.IsLower(rune)
 }
 
-// CallerInfo returns an array of strings containing the file and line number
-// of each stack frame leading from the current test to the assert call that
+// CallerInfo returns an array of strings containing the file and line number,
+// and each stack frame leading from the current test, when the assert call that
 // failed.
 func CallerInfo() (callers []string) {
 	var (
@@ -89,10 +89,7 @@ func CallerInfo() (callers []string) {
 		name = f.Name()
 
 		// testing.tRunner is the standard library function that calls
-		// tests. Subtests are called directly by tRunner, without going through
-		// the Test/Benchmark/Example function that contains the t.Run calls, so
-		// with subtests we should break when we hit tRunner, without adding it
-		// to the list of callers.
+		// tests.
 		if name == "testing.tRunner" {
 			break
 		}
