@@ -75,6 +75,54 @@ func BM(b *testing.B, fn func()) {
 	}
 }
 
+func typeMap(expect string) string {
+	m := map[string]string{
+		"str":   "string",
+		"int":   "int",
+		"i8":    "int8",
+		"i16":   "int16",
+		"i32":   "int32",
+		"i64":   "int64",
+		"u":     "uint",
+		"u8":    "uint8",
+		"u16":   "uint16",
+		"ui32":  "uint32",
+		"ui64":  "uint64",
+		"f32":   "float32",
+		"f64":   "float64",
+		"b":     "bool",
+		"m":     "map",
+		"ch":    "chan",
+		"stu":   "struct",
+		"bytes": "[]byte",
+		"u8s":   "[]uint8",
+		"c64":   "complex64",
+		"c128":  "complex128",
+	}
+
+	return m[expect]
+}
+
+// IsTypes return bool when actual is expect type
+func IsTypes(expect string, actual interface{}) bool {
+	mt := typeMap(expect)
+	s := reflect.TypeOf(actual).String()
+	if s == mt || s == expect {
+		return true
+	}
+
+	return false
+}
+
+func typVal(expect string) string {
+	ept := typeMap(expect)
+	if ept == "" {
+		ept = expect
+	}
+
+	return ept
+}
+
 // TypeOf equal two interface{} type
 func TypeOf(expect, actual interface{}) bool {
 	return reflect.TypeOf(expect) == reflect.TypeOf(actual)
@@ -90,6 +138,7 @@ func IsType(t TestingT, expect string, actual interface{}, args ...interface{}) 
 	}
 
 	s := reflect.TypeOf(actual).String()
+	expect = typVal(expect)
 
 	info, call, cinfo := typeCall(expect, s, args...)
 	return Equal(t, expect, s, info, call, cinfo)

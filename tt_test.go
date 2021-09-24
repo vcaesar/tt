@@ -136,6 +136,8 @@ func TestArgs(t *testing.T) {
 
 func TestType(t *testing.T) {
 	IsType(t, "int", 11)
+	IsType(t, "f64", 0.1)
+	IsTypes("f64", 0.1)
 
 	Type = true
 	Equal(t, 1, 1)
