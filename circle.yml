@@ -8,12 +8,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: golang:1.17.6
+      - image: golang:1.18.1
     working_directory: /gopath/src/github.com/vcaesar/tt
     steps:
       - checkout
       # specify any bash command here prefixed with `run: `
-      # - run: go get -u github.com/shirou/gopsutil
       - run: go get -v -t -d ./...
       - run: go test -v ./...
       # codecov.io
