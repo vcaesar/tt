@@ -9,6 +9,9 @@
 *.so
 *.dylib
 
+.v0
+.codg
+v0
 # Test binary, build with `go test -c`
 *.test
 
